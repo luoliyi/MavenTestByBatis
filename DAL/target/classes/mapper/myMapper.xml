@@ -13,7 +13,7 @@ resultType="com.zhangguo.mybatis01.entities.Student"就表示将查询结果封�
 Student类就是student表所对应的实体类
 -->
     <!--根据ID查询单个-->
-    <select id="selectUserByUid" resultType="mybatis.Entity.User">
+    <select id="selectUserByUid" parameterType="int" resultType="mybatis.Entity.User">
         select * from information where uid = #{uid}
     </select>
 
@@ -30,7 +30,6 @@ Student类就是student表所对应的实体类
         <result column="usex" property="usex" />
         <result column="udesc" property="udesc" />
     </resultMap>
-
     <!--查询全部-->
     <select id="selectAll" resultMap="seeShare">
         select * from information;

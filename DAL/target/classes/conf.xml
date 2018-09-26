@@ -16,6 +16,9 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mapper/myMapper.xml"/>
+        <!--基于.xml的配置-->
+        <!--<mapper resource="mapper/myMapper.xml"/>-->
+        <!--基于注解的配置-->
+        <mapper class="DAL.IMapper"></mapper>
     </mappers>
 </configuration>
