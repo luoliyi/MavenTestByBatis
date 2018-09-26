@@ -66,4 +66,9 @@ public class UserDALTest {
     public void update() {
         System.out.println(dal.update(new User(5,"tom1",19,0,"my name is tom1!")));
     }
+
+    @Test
+    public void  hello(){
+        System.out.println("hello mybatis!");
+    }
 }
