@@ -3,22 +3,44 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--配置文件-->
+    <properties resource="dbconfig.properties"></properties>
+    <!--设置-->
+    <settings>
+        <!--设置是否允许缓存-->
+        <setting name="cacheEnabled" value="true"/>
+        <!--设置是否允许输出日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
     <!--开发环境-->
     <environments default="development">
+        <!--开发环境一-->
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://192.168.8.171/UserInfo?serverTimezone=GMT%2B8"/>
-                <property name="username" value="one"/>
-                <property name="password" value=".asamu.654"/>
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.url}"/>
+                <property name="username" value="${mysql.user}"/>
+                <property name="password" value="${mysql.password}"/>
             </dataSource>
         </environment>
+
+        <!--开发环境二-->
+        <environment id="work">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.url}"/>
+                <property name="username" value="${mysql.user}"/>
+                <property name="password" value="${mysql.password}"/>
+            </dataSource>
+        </environment>
+
     </environments>
     <mappers>
         <!--基于.xml的配置-->
-        <!--<mapper resource="mapper/myMapper.xml"/>-->
+       <mapper resource="mapper/myMapper.xml"/>
         <!--基于注解的配置-->
-        <mapper class="DAL.IMapper"></mapper>
+      <!--  <mapper class="DAL.IMapper"></mapper>-->
     </mappers>
 </configuration>
