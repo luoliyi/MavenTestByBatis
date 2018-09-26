@@ -4,7 +4,9 @@ import mybatis.Entity.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDALTest {
     UserDAL dal=null;
@@ -43,7 +45,15 @@ public class UserDALTest {
 
     @Test
     public void moSelect(){
-        List<User>users=dal.moSelect("i");
+        List<User>users=dal.moSelect("z");
+        for (User u:users){
+            System.out.println(u.toString());
+        }
+    }
+
+    @Test
+    public void moSelect2(){
+        List<User>users=dal.moSelect2("i");
         for (User u:users){
             System.out.println(u.toString());
         }
@@ -70,5 +80,33 @@ public class UserDALTest {
     @Test
     public void  hello(){
         System.out.println("hello mybatis!");
+    }
+
+    @Test
+    public void addUserReturnInfo() {
+        dal.addUserReturnInfo(new User("jetty", 19, 0, "my name is jetty!"));
+    }
+
+    @Test
+    public void selectWithIf(){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("uname","i");
+//        map.put("usex",1);
+        map.put("uage",19);
+        List<User>userList=dal.selectWithIf(map);
+        for (User u:userList){
+            System.out.println(u.toString());
+        }
+    }
+
+    @Test
+    public void selectByLimit(){
+        Map<String,Object>map=new HashMap<String, Object>();
+        map.put("uname","a");
+        map.put("usex",1);
+        List<User>userList=dal.selectByLimit(map);
+        for (User u:userList){
+            System.out.println(u.toString());
+        }
     }
 }

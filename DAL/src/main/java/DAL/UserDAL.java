@@ -1,10 +1,12 @@
 package DAL;
 
+import com.sun.corba.se.spi.ior.ObjectKey;
 import mybatis.Entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.omg.CORBA.OBJ_ADAPTER;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -46,8 +48,12 @@ public class UserDAL {
     }
 
     public List<User> moSelect(String uname){
-        Map<String,String> map=new HashMap<String, String>();
         List<User> userList=session.selectList("com.nf.mybatis.doAction.moSelect",uname);
+        return userList;
+    }
+
+    public List<User> moSelect2(String uname){
+        List<User> userList=session.selectList("com.nf.mybatis.doAction.moSelect2",uname);
         return userList;
     }
 
@@ -68,5 +74,27 @@ public class UserDAL {
         session.commit();
         session.close();
         return result;
+    }
+
+
+    /*复杂操作,返回新增id*/
+    public int addUserReturnInfo(User user){
+        System.out.println("插入前的id:"+user.getUid());
+        session.insert("com.nf.mybatis.doAction.addUserReturnInfo",user);
+       session.commit();
+       session.close();
+        System.out.println("插入后的id:"+user.getUid());
+       return user.getUid();
+    }
+
+    /*复杂操作，条件查询*/
+    public List<User> selectWithIf(Map<String,Object> map){
+        List<User> userList=session.selectList("com.nf.mybatis.doAction.selectWithIf",map);
+        return userList;
+    }
+
+    //复杂操作，条件查询2
+    public List<User> selectByLimit(Map<String,Object> map){
+        return session.selectList("com.nf.mybatis.doAction.selectByLimit",map);
     }
 }

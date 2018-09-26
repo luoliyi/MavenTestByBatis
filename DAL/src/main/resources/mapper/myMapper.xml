@@ -50,9 +50,28 @@ Student类就是student表所对应的实体类
         select * from information where uname like '%${value}%';
     </select>
 
+    <!--模糊查询2,指定参数是String类型-->
+    <select id="moSelect2" resultType="mybatis.Entity.User" parameterType="String">
+        select * from information
+        <where>
+            <if test="uname!=null">
+                uname like '%${uname}%'
+            </if>
+        </where>
+    </select>
+
     <!--新增-->
     <insert id="addUser" parameterType="mybatis.Entity.User" useGeneratedKeys="true" keyProperty="uid">
        insert into information(uname,uage,usex,udesc) values(#{uname},#{uage},#{usex},#{udesc})
+    </insert>
+
+    <!--新增数据后返回新增的数据-->
+    <insert id="addUserReturnInfo" parameterType="mybatis.Entity.User" useGeneratedKeys="true" keyProperty="uid">
+        /*在插入之后查询出最近的id返回，重写返回的结果，而不再是返回影响行数*/
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="uid">
+            SELECT LAST_INSERT_ID() AS uid;
+        </selectKey>
+        insert into information(uname,uage,usex,udesc) values(#{uname},#{uage},#{usex},#{udesc});
     </insert>
 
     <!--修改-->
@@ -64,5 +83,39 @@ Student类就是student表所对应的实体类
     <delete id="deleteUser" parameterType="int">
         delete from information where uid=#{uid}
     </delete>
+
+
+    <!--复杂操作-->
+    <select id="selectWithIf" resultType="mybatis.Entity.User">
+        select * from information
+        <where>
+            /*uname就是你传入的参数*/
+            <if test="uname!=null">
+                 uname like '%${uname}%'
+            </if>
+            <if test="usex!=null">
+                and usex = #{usex}
+            </if>
+            <if test="uage!=null">
+                and uage>#{uage}
+            </if>
+        </where>
+    </select>
+
+    <!--复杂查询操作2-->
+    <select id="selectByLimit" resultType="mybatis.Entity.User">
+        select * from information
+        <where>
+            <if test="uname!=null">
+                uname like '%${uname}%'
+            </if>
+            <if test="uage">
+                and uage>#{uage}
+            </if>
+            <if test="usex">
+                and usex=#{usex}
+            </if>
+        </where>
+    </select>
 
 </mapper>
