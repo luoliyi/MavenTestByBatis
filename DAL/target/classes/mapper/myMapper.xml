@@ -22,9 +22,9 @@ Student类就是student表所对应的实体类
         select * from information where uname=#{uname}
     </select>
 
-    <!--查询结果集-->
+    <!--查询结果集，用于多表查询-->
     <resultMap id="seeShare" type="mybatis.Entity.User">
-        <id column="uid" property="uid" />
+        <result column="uid" property="uid" />
         <result column="uname" property="uname" />
         <result column="uage" property="uage" />
         <result column="usex" property="usex" />
@@ -86,10 +86,10 @@ Student类就是student表所对应的实体类
 
 
     <!--复杂操作-->
-    <select id="selectWithIf" resultType="mybatis.Entity.User">
+    <select id="selectWithIf" resultType="User">
         select * from information
         <where>
-            /*uname就是你传入的参数*/
+           /* uname就是你传入的参数*/
             <if test="uname!=null">
                  uname like '%${uname}%'
             </if>
@@ -103,7 +103,7 @@ Student类就是student表所对应的实体类
     </select>
 
     <!--复杂查询操作2-->
-    <select id="selectByLimit" resultType="mybatis.Entity.User">
+    <select id="selectByLimit" resultType="user">
         select * from information
         <where>
             <if test="uname!=null">
@@ -117,5 +117,41 @@ Student类就是student表所对应的实体类
             </if>
         </where>
     </select>
+
+    <!--复杂操作3，in 查询 if判断-->
+    <select id="selectWithIn" parameterType="java.util.List" resultType="mybatis.Entity.User">
+        select * from information
+        <where>
+            <if test="list!=null and list.size() gt 0">
+                uid in
+                <foreach collection="list" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--复杂操作4，根据id 查询不包括里面的加条件-->
+    <select id="selectWithInAndMoreLimit" parameterType="java.util.Map" resultType="mybatis.Entity.User">
+        select * from information
+        <where>
+            <if test="ids!=null and ids.size() gt 0">
+                uid in
+                <foreach collection="ids" item="uid" open="(" separator="," close=")">
+                    #{uid}
+                </foreach>
+            </if>
+            <if test="uname!=null">
+                and uname like '%${uname}%'
+            </if>
+            <if test="uage!=null and uage gt 0">
+                and uage>#{uage}
+            </if>
+            <if test="usex!=null">
+                and usex=#{usex}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

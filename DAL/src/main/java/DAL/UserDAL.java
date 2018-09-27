@@ -1,14 +1,12 @@
 package DAL;
 
-import com.sun.corba.se.spi.ior.ObjectKey;
 import mybatis.Entity.User;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.omg.CORBA.OBJ_ADAPTER;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +37,7 @@ public class UserDAL {
         return userList;
     }
 
-    List<User> selectByPage(@Param("pageno") int pageno, @Param("limit") int limit){
+    List<User> selectByPage(int pageno,int limit){
         Map<String,Integer>map=new HashMap<String,Integer>();
         map.put("pageno",(pageno-1)*limit);
         map.put("limit",limit);
@@ -96,5 +94,20 @@ public class UserDAL {
     //复杂操作，条件查询2
     public List<User> selectByLimit(Map<String,Object> map){
         return session.selectList("com.nf.mybatis.doAction.selectByLimit",map);
+    }
+
+    /*复杂操作，条件查询3*/
+    public List<User> selectWithIn(List<Integer> list){
+        return session.selectList("com.nf.mybatis.doAction.selectWithIn",list);
+    }
+
+    /*复杂操作，条件查询4*/
+    public List<User> selectWithInAndMoreLimit(ArrayList<Integer> arr,String uname,int uage,int usex){
+        Map<String,Object> params=new HashMap<String, Object>();
+        params.put("ids",arr);
+        params.put("uname",uname);
+        params.put("uage",uage);
+        params.put("usex",usex);
+        return session.selectList("com.nf.mybatis.doAction.selectWithInAndMoreLimit",params);
     }
 }

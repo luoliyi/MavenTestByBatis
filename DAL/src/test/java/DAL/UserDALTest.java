@@ -4,6 +4,7 @@ import mybatis.Entity.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,11 +103,34 @@ public class UserDALTest {
     @Test
     public void selectByLimit(){
         Map<String,Object>map=new HashMap<String, Object>();
-        map.put("uname","a");
+       // map.put("uname","");
         map.put("usex",1);
         List<User>userList=dal.selectByLimit(map);
         for (User u:userList){
             System.out.println(u.toString());
         }
+    }
+
+    @Test
+    public void  selectWithIn(){
+        List<Integer> list=new ArrayList<Integer>();
+       // list.add(1); list.add(3); list.add(4); list.add(5);
+        List<User> userList= dal.selectWithIn(list);
+        for (User u:userList){
+            System.out.println(u.toString());
+        }
+    }
+
+    @Test
+    public  void selectWithInAndMoreLimit(){
+        ArrayList<Integer> arr=new ArrayList<Integer>();
+        arr.add(16);arr.add(17);arr.add(18);arr.add(19);arr.add(20);
+        String uname="i";
+        int uage=19;
+        int usex=1;
+       List<User> userList=dal.selectWithInAndMoreLimit(arr,uname,uage,usex);
+       for (User u:userList){
+           System.out.println(u.toString());
+       }
     }
 }

@@ -12,6 +12,18 @@
         <!--设置是否允许输出日志-->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
+    <!--别名-->
+    <typeAliases>
+        <!--第一种定义别名的方式-->
+        <!--<typeAlias type="mybatis.Entity.User" alias="User"></typeAlias>-->
+        <!--指定包名下所有的类被自动扫描并定义默认别名，路径只给到包名就行
+mybatis会自动扫描包中的pojo类，自动定义别名，别名就是类名(首字母大写或小写都可以)-->
+        <package name="mybatis.Entity"></package>
+    </typeAliases>
+    <!--类型处理器-->
+<!--    <typeHandlers>
+        <typeHandler handler="" javaType="" jdbcType=""></typeHandler>
+    </typeHandlers>-->
     <!--开发环境-->
     <environments default="development">
         <!--开发环境一-->
